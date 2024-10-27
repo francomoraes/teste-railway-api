@@ -1,3 +1,17 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html,
+body,
+#root {
+    height: 100%;
+}
+
+.custom-link {
+    @apply rounded-md border border-black p-2;
+}
+
+.custom-h2 {
+    @apply mb-10 text-2xl font-bold text-gray-800;
+}
