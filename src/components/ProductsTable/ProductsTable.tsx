@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react';
 import { ItemsPerPageSelector, PageSelector } from './components';
+import SpinnerLoader from '../SpinnerLoader/SpinnerLoader';
 
 type DataProps = {
     id: number;
@@ -10,9 +11,10 @@ type DataProps = {
 
 type ProductsTableProps = {
     data: DataProps[];
+    isLoading?: boolean;
 };
 
-const ProductsTable = ({ data }: ProductsTableProps) => {
+const ProductsTable = ({ data, isLoading }: ProductsTableProps) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [dataToDisplay, setDataToDisplay] = useState<DataProps[]>(data.slice(0, itemsPerPage));
@@ -37,6 +39,19 @@ const ProductsTable = ({ data }: ProductsTableProps) => {
         const end = start + itemsPerPage;
         setDataToDisplay(data.slice(start, end));
     }, [currentPage, itemsPerPage, data]);
+
+    if (data.length === 0) {
+        return <div className='flex h-full items-center justify-center'>No data available</div>;
+    }
+
+    if (isLoading)
+        return (
+            <div className='flex h-[calc(100%-58px)] w-full flex-col items-center justify-center'>
+                <div className='h-40 w-40'>
+                    <SpinnerLoader />
+                </div>
+            </div>
+        );
 
     return (
         <div className='flex h-full flex-col'>

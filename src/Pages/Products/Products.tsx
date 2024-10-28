@@ -11,9 +11,11 @@ type ProductType = {
 
 const Products = () => {
     const [products, setProducts] = useState<ProductType[]>([]);
+    const [isLoading, setIsLoading] = useState(false);
     const { selectedTenant } = useTenantStore();
 
     useEffect(() => {
+        setIsLoading(true);
         const accessToken = localStorage.getItem('accessToken');
         const fetchProducts = async () => {
             try {
@@ -38,6 +40,7 @@ const Products = () => {
                                 price: product.price,
                             }))
                         );
+                        setIsLoading(false);
                     }
                 } else {
                     console.error(`Error: ${response.status} ${response.statusText}`);
@@ -54,7 +57,10 @@ const Products = () => {
         <div className='flex h-[calc(100%-58px)] flex-col p-4'>
             <h2 className='custom-h2'>Produtos</h2>
             <div className='flex-grow'>
-                <ProductsTable data={products} />
+                <ProductsTable
+                    data={products}
+                    isLoading={isLoading}
+                />
             </div>
         </div>
     );
