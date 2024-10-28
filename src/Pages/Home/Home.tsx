@@ -1,4 +1,4 @@
-import useUserStore from '../store/useUserStore';
+import useUserStore from '@/store/useUserStore';
 
 const Home = () => {
     const { user } = useUserStore();
@@ -6,7 +6,7 @@ const Home = () => {
     return (
         <div className='p-4'>
             <h2 className='custom-h2'>Home</h2>
-            <h3>{user?.name}</h3>
+            <h3>{user?.firstName}</h3>
         </div>
     );
 };

@@ -1,9 +1,6 @@
 import { HashRouter, Route, Routes } from 'react-router-dom';
-import Home from '../Pages/Home';
-import Products from '../Pages/Products';
-import Layout from '../Pages/Layout';
-import Login from '../Pages/Login';
 import useUserStore from '../store/useUserStore';
+import { Home, Layout, Login, Products } from '../Pages';
 
 const RoutesComponent = () => {
     const { user } = useUserStore();
@@ -15,7 +12,7 @@ const RoutesComponent = () => {
                     path='/'
                     element={<Layout />}
                 >
-                    {user && user?.name ? (
+                    {user ? (
                         <>
                             <Route
                                 path='/'

@@ -1,13 +1,21 @@
 import { create } from 'zustand';
 
 export type User = {
-    name: string;
+    avatarUrl: string;
+    configs: {
+        backgroundColor: string;
+        primaryColor: string;
+        secondaryColor: string;
+    };
     email: string;
+    firstName: string;
+    id: number;
+    lastName: string;
 };
 
 type UserStore = {
     user: User | null;
-    setUser: (user: User) => void;
+    setUser: (user: User | null) => void;
 };
 
 const useUserStore = create<UserStore>((set) => ({

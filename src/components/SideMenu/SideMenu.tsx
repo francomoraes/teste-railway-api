@@ -1,6 +1,6 @@
 import { Link } from 'react-router-dom';
-import Dropdown from '../Dropdown/Dropdown';
 import useUserStore, { User } from '../../store/useUserStore';
+import Dropdown from '../Dropdown/Dropdown';
 
 const SideMenu = () => {
     const { user, setUser } = useUserStore();
@@ -11,7 +11,7 @@ const SideMenu = () => {
                 <Dropdown />
             </div>
             <div className='mt-10 flex h-full flex-col gap-2'>
-                {user && user?.name && (
+                {user && (
                     <>
                         <Link
                             to='/'
@@ -28,7 +28,7 @@ const SideMenu = () => {
                         <Link
                             to='#'
                             className='custom-link mb-0 mt-auto'
-                            onClick={() => setUser({} as User)}
+                            onClick={() => setUser(null)}
                         >
                             Sair
                         </Link>
