@@ -1,31 +1,44 @@
-import { Link } from 'react-router-dom';
-import useUserStore from '../../store/useUserStore';
-import Dropdown from '../Dropdown/Dropdown';
 import { useEffect, useState } from 'react';
+
+import { Link, useNavigate } from 'react-router-dom';
+
+import useUserStore from '../../store/useUserStore';
 import useTenantStore from '@/store/useTenantsStore';
+
+import { Dropdown } from '@/components';
+import { NavLink } from 'react-router-dom';
 
 const SideMenu = () => {
     const { user, setUser } = useUserStore();
     const [tenantsList, setTenantsList] = useState<string[]>([]);
     const { setTenants } = useTenantStore();
+    const navigate = useNavigate();
 
     useEffect(() => {
         const fetchTenants = async () => {
-            const accessToken = localStorage.getItem('accessToken');
-            const response = await fetch(`${import.meta.env.VITE_BASE_URL}tenants`, {
-                headers: {
-                    Authorization: `Bearer ${accessToken}`,
-                },
-            });
-            if (response.ok) {
-                const data = await response.json();
-                if (data) {
-                    setTenants(data);
-                    const tenants = data.map((tenant: any) => tenant.displayName);
-                    setTenantsList(tenants);
+            try {
+                const accessToken = localStorage.getItem('accessToken');
+                const response = await fetch(`${import.meta.env.VITE_BASE_URL}tenants`, {
+                    headers: {
+                        Authorization: `Bearer ${accessToken}`,
+                    },
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data) {
+                        setTenants(data);
+                        const tenants = data.map((tenant: any) => tenant.displayName);
+                        setTenantsList(tenants);
+                    }
+                } else {
+                    console.error(`Error: ${response.status} ${response.statusText}`);
                 }
+            } catch (error) {
+                console.error('Failed to fetch tenants:', error);
             }
         };
+
         if (user) {
             fetchTenants();
         }
@@ -39,25 +52,33 @@ const SideMenu = () => {
             <div className='mt-10 flex h-full flex-col gap-2'>
                 {user && (
                     <>
-                        <Link
+                        <NavLink
                             to='/'
-                            className='custom-link'
+                            className={({ isActive }) => {
+                                return isActive ? 'custom-link !bg-gray-500 text-white' : 'custom-link';
+                            }}
                         >
                             Home
-                        </Link>
-                        <Link
+                        </NavLink>
+                        <NavLink
                             to='products'
-                            className='custom-link'
+                            className={({ isActive }) => {
+                                return isActive ? 'custom-link !bg-gray-500 text-white' : 'custom-link';
+                            }}
                         >
                             Produtos
-                        </Link>
-                        <Link
+                        </NavLink>
+                        <NavLink
                             to='#'
                             className='custom-link mb-0 mt-auto'
-                            onClick={() => setUser(null)}
+                            onClick={() => {
+                                localStorage.removeItem('accessToken');
+                                navigate('/');
+                                setUser(null);
+                            }}
                         >
                             Sair
-                        </Link>
+                        </NavLink>
                     </>
                 )}
             </div>

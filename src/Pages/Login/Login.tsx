@@ -1,13 +1,14 @@
-import SpinnerLoader from '@/components/SpinnerLoader/SpinnerLoader';
 import useUserStore from '@/store/useUserStore';
+
 import { useState } from 'react';
 import { useForm } from 'react-hook-form';
+
 import { loginUser } from './helpers/loginUser';
-import { LoginFormData } from './types';
 import { fetchUserData } from './helpers/fetchUserData';
-import EmailInput from '@/components/EmailInput/EmailInput';
-import PasswordInput from '@/components/PasswordInput/PasswordInput';
-import SubmitButton from '@/components/SubmitButton/SubmitButton';
+
+import { LoginFormData } from './types';
+
+import { EmailInput, PasswordInput, SpinnerLoader, SubmitButton } from '@/components';
 
 const Login = () => {
     const {

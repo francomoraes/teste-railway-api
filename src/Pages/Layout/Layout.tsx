@@ -1,5 +1,5 @@
+import { Header, SideMenu } from '@/components';
 import { Outlet } from 'react-router-dom';
-import { Header, SideMenu } from '../../components';
 
 const Layout = () => {
     return (

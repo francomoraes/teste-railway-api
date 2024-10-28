@@ -9,9 +9,17 @@ body,
 }
 
 .custom-link {
-    @apply rounded-md border border-black p-2;
+    @apply rounded-md border bg-gray-300 p-2;
 }
 
 .custom-h2 {
     @apply mb-10 text-2xl font-bold text-gray-800;
+}
+
+th {
+    @apply border-b border-gray-200 px-4 py-2;
+}
+
+td {
+    @apply border-b border-gray-200 px-4 py-2 text-center;
 }

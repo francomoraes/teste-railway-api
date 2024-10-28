@@ -1,8 +1,10 @@
+import useTenantStore from '@/store/useTenantsStore';
 import { useEffect, useState } from 'react';
 
-const Dropdown = ({ data = [], handleClick }: { data?: string[]; handleClick?: () => void }) => {
+const Dropdown = ({ data = [] }: { data?: string[] }) => {
     const [isOpen, setIsOpen] = useState(false);
-    const [selected, setSelected] = useState('');
+    const [selected, setSelected] = useState(data[0]);
+    const { tenants, setSelectedTenant } = useTenantStore();
     let isDisabled = data.length === 0;
 
     const handleClickOutside = (event: MouseEvent) => {
@@ -18,6 +20,24 @@ const Dropdown = ({ data = [], handleClick }: { data?: string[]; handleClick?: (
             document.removeEventListener('mousedown', handleClickOutside);
         };
     }, []);
+
+    const handleSelectTenant = (item: string) => {
+        const tenant = tenants?.find((tenant) => tenant.displayName === item);
+        if (tenant) {
+            setSelectedTenant(tenant);
+            setSelected(item);
+        }
+    };
+
+    useEffect(() => {
+        if (data) {
+            handleSelectTenant(data[0]);
+        }
+
+        return () => {
+            setSelectedTenant(null);
+        };
+    }, [data]);
 
     return (
         <div
@@ -37,9 +57,8 @@ const Dropdown = ({ data = [], handleClick }: { data?: string[]; handleClick?: (
                             key={item}
                             className='cursor-pointer px-4 py-2 hover:bg-gray-100'
                             onClick={() => {
-                                setSelected(item);
                                 setIsOpen(false);
-                                handleClick && handleClick();
+                                handleSelectTenant(item);
                             }}
                         >
                             {item}

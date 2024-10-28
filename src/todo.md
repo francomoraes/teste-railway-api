@@ -1,6 +1,6 @@
 ## Tela de login
 
--   [ ] Formulário de login com email e senha
+-   [x] Formulário de login com email e senha
 
 ## Página inicial
 
@@ -19,12 +19,12 @@
 
 ## Menu lateral
 
--   [ ] Dropdown
--   [ ] Botões de navegação
--   [ ] Botão de sair
+-   [x] Dropdown
+-   [x] Botões de navegação
+-   [x] Botão de sair
 
 ## Header
 
--   [ ] Nome do usuário
+-   [x] Nome do usuário
 -   [ ] Botao de fechar
 -   [ ] Botão de voltar (quando selecionada alguma função da tabela)
