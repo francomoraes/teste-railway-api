@@ -24,6 +24,7 @@ const Login = () => {
         setIsLoading(true);
         try {
             const { accessToken } = await loginUser(data);
+            localStorage.setItem('accessToken', accessToken);
             const user = await fetchUserData(accessToken);
             setUser(user);
         } catch (error) {

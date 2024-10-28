@@ -1,14 +1,40 @@
 import { Link } from 'react-router-dom';
-import useUserStore, { User } from '../../store/useUserStore';
+import useUserStore from '../../store/useUserStore';
 import Dropdown from '../Dropdown/Dropdown';
+import { useEffect, useState } from 'react';
+import useTenantStore from '@/store/useTenantsStore';
 
 const SideMenu = () => {
     const { user, setUser } = useUserStore();
+    const [tenantsList, setTenantsList] = useState<string[]>([]);
+    const { setTenants } = useTenantStore();
+
+    useEffect(() => {
+        const fetchTenants = async () => {
+            const accessToken = localStorage.getItem('accessToken');
+            const response = await fetch(`${import.meta.env.VITE_BASE_URL}tenants`, {
+                headers: {
+                    Authorization: `Bearer ${accessToken}`,
+                },
+            });
+            if (response.ok) {
+                const data = await response.json();
+                if (data) {
+                    setTenants(data);
+                    const tenants = data.map((tenant: any) => tenant.displayName);
+                    setTenantsList(tenants);
+                }
+            }
+        };
+        if (user) {
+            fetchTenants();
+        }
+    }, [user]);
 
     return (
         <div className='flex h-full w-[300px] flex-col bg-gray-200 p-4'>
             <div>
-                <Dropdown />
+                <Dropdown data={tenantsList} />
             </div>
             <div className='mt-10 flex h-full flex-col gap-2'>
                 {user && (
@@ -23,7 +49,7 @@ const SideMenu = () => {
                             to='products'
                             className='custom-link'
                         >
-                            Products
+                            Produtos
                         </Link>
                         <Link
                             to='#'
