@@ -1,10 +1,13 @@
 import useUserStore from '@/store/useUserStore';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useLocation, useNavigate, useParams } from 'react-router-dom';
 
 const Header = () => {
     const { user } = useUserStore();
     const navigate = useNavigate();
     const { productId } = useParams<{ productId: string }>();
+    const location = useLocation();
+
+    const showBackButton = productId || location.pathname.includes('add-product');
 
     const handleClick = () => {
         navigate(-1);
@@ -12,7 +15,7 @@ const Header = () => {
 
     return (
         <div className='flex w-full justify-between border border-black p-4'>
-            {productId && (
+            {showBackButton && (
                 <button
                     onClick={handleClick}
                     className='rounded bg-gray-500 px-4 py-2 font-bold text-white hover:bg-gray-700'
