@@ -12,9 +12,10 @@ type DataProps = {
 type ProductsTableProps = {
     data: DataProps[];
     isLoading?: boolean;
+    handleRowClick?: (item: DataProps) => void;
 };
 
-const ProductsTable = ({ data, isLoading }: ProductsTableProps) => {
+const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) => {
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(5);
     const [dataToDisplay, setDataToDisplay] = useState<DataProps[]>(data.slice(0, itemsPerPage));
@@ -69,6 +70,7 @@ const ProductsTable = ({ data, isLoading }: ProductsTableProps) => {
                         <tr
                             key={item.id}
                             className='text-gray-800 odd:bg-white even:bg-gray-50'
+                            onClick={() => handleRowClick && handleRowClick(item)}
                         >
                             <td className='custom-td'>{item.id}</td>
                             <td className='custom-td'>{item.name}</td>

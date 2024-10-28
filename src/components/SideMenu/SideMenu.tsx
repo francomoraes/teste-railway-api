@@ -44,43 +44,41 @@ const SideMenu = () => {
         }
     }, [user]);
 
+    if (!user) return <div className='flex h-full w-[300px] flex-col bg-gray-200 p-4'></div>;
+
     return (
         <div className='flex h-full w-[300px] flex-col bg-gray-200 p-4'>
             <div>
                 <Dropdown data={tenantsList} />
             </div>
             <div className='mt-10 flex h-full flex-col gap-2'>
-                {user && (
-                    <>
-                        <NavLink
-                            to='/'
-                            className={({ isActive }) => {
-                                return isActive ? 'custom-link !bg-gray-500 text-white' : 'custom-link';
-                            }}
-                        >
-                            Home
-                        </NavLink>
-                        <NavLink
-                            to='products'
-                            className={({ isActive }) => {
-                                return isActive ? 'custom-link !bg-gray-500 text-white' : 'custom-link';
-                            }}
-                        >
-                            Produtos
-                        </NavLink>
-                        <NavLink
-                            to='#'
-                            className='custom-link mb-0 mt-auto'
-                            onClick={() => {
-                                localStorage.removeItem('accessToken');
-                                navigate('/');
-                                setUser(null);
-                            }}
-                        >
-                            Sair
-                        </NavLink>
-                    </>
-                )}
+                <NavLink
+                    to='/'
+                    className={({ isActive }) => {
+                        return isActive ? 'custom-link !bg-gray-500 text-white' : 'custom-link';
+                    }}
+                >
+                    Home
+                </NavLink>
+                <NavLink
+                    to='products'
+                    className={({ isActive }) => {
+                        return isActive ? 'custom-link !bg-gray-500 text-white' : 'custom-link';
+                    }}
+                >
+                    Produtos
+                </NavLink>
+                <NavLink
+                    to='#'
+                    className='custom-link mb-0 mt-auto'
+                    onClick={() => {
+                        localStorage.removeItem('accessToken');
+                        navigate('/');
+                        setUser(null);
+                    }}
+                >
+                    Sair
+                </NavLink>
             </div>
         </div>
     );

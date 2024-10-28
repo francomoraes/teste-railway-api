@@ -9,8 +9,9 @@
 ## Página produtos
 
 -   [ ] Tabela
-    -   [ ] Paginação
-    -   [ ] Dropdown itens por página
+    -   [x] Paginação
+    -   [x] Dropdown itens por página
+    -   [x] Detalhe de produto
     -   [ ] Botão de adicionar item
     -   [ ] Botão de atualizar
     -   [ ] Clique em cada item mostra detalhes do item

@@ -1,56 +1,34 @@
-import { ProductsTable } from '@/components';
+import { ProductsTable, SpinnerLoader } from '@/components';
 import useTenantStore from '@/store/useTenantsStore';
-import { useEffect, useState } from 'react';
-
-type ProductType = {
-    id: number;
-    name: string;
-    description: string;
-    price: number;
-};
+import { useFetchProducts } from './hooks/useFetchProducts';
+import { useNavigate } from 'react-router-dom';
 
 const Products = () => {
-    const [products, setProducts] = useState<ProductType[]>([]);
-    const [isLoading, setIsLoading] = useState(false);
     const { selectedTenant } = useTenantStore();
+    const { products, isLoading, error } = useFetchProducts(selectedTenant?.uuid);
+    const navigate = useNavigate();
 
-    useEffect(() => {
-        setIsLoading(true);
-        const accessToken = localStorage.getItem('accessToken');
-        const fetchProducts = async () => {
-            try {
-                const response = await fetch(
-                    `${import.meta.env.VITE_BASE_URL}products?tenantUuid=${selectedTenant?.uuid}&page=0&limit=100`,
-                    {
-                        headers: {
-                            Authorization: `Bearer ${accessToken}`,
-                        },
-                    }
-                );
+    const handleRowClick = (item: any) => {
+        navigate(`/products/${item.id}?tenantUuid=${selectedTenant?.uuid}`);
+    };
 
-                if (response.ok) {
-                    const data = await response.json();
-                    if (data) {
-                        setProducts(
-                            data.map((product: ProductType) => ({
-                                id: product.id,
-                                name: product.name,
-                                description: product.description,
-                                price: product.price,
-                            }))
-                        );
-                        setIsLoading(false);
-                    }
-                } else {
-                    console.error(`Error: ${response.status} ${response.statusText}`);
-                }
-            } catch (error) {
-                console.error('Failed to fetch products:', error);
-            }
-        };
+    if (isLoading) {
+        return (
+            <div className='flex h-[calc(100%-58px)] w-full flex-col items-center justify-center'>
+                <div className='h-40 w-40'>
+                    <SpinnerLoader />
+                </div>
+            </div>
+        );
+    }
 
-        fetchProducts();
-    }, [selectedTenant]);
+    if (error) {
+        return (
+            <div className='flex h-screen items-center justify-center'>
+                <p className='text-red-500'>Error: {error}</p>
+            </div>
+        );
+    }
 
     return (
         <div className='flex h-[calc(100%-58px)] flex-col p-4'>
@@ -59,6 +37,7 @@ const Products = () => {
                 <ProductsTable
                     data={products}
                     isLoading={isLoading}
+                    handleRowClick={handleRowClick}
                 />
             </div>
         </div>
