@@ -16,7 +16,7 @@ type ProductsTableProps = {
 
 const ProductsTable = ({ data, isLoading }: ProductsTableProps) => {
     const [currentPage, setCurrentPage] = useState(1);
-    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [itemsPerPage, setItemsPerPage] = useState(5);
     const [dataToDisplay, setDataToDisplay] = useState<DataProps[]>(data.slice(0, itemsPerPage));
 
     const handlePrevPage = () => {
@@ -109,7 +109,7 @@ const ProductsTable = ({ data, isLoading }: ProductsTableProps) => {
                     Last
                 </button>
                 <ItemsPerPageSelector
-                    data={['10', '20', '30']}
+                    data={['5', '10', '15']}
                     itemsPerPage={itemsPerPage}
                     handleChange={handleChangeItemsPerPage}
                 />
