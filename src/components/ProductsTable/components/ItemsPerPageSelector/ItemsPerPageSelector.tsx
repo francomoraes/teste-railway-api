@@ -8,7 +8,7 @@ const ItemsPerPageSelector = ({
     handleChange: (value: number) => void;
 }) => {
     return (
-        <div className='rounded-md bg-gray-200 px-2'>
+        <div className='ml-4 rounded-md bg-gray-200 px-2'>
             <label htmlFor='itemsPerPage'>Tamanho da página:</label>
             <select
                 className='ml-2 cursor-pointer rounded-md bg-gray-200 px-4 py-2'

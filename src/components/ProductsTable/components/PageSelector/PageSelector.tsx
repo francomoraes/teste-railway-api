@@ -8,7 +8,7 @@ const PageSelector = ({
     setCurrentPage: (value: number) => void;
 }) => {
     return (
-        <ul className='inline-flex items-center justify-center gap-2 text-gray-800'>
+        <ul className='mx-2 inline-flex items-center justify-center gap-2 text-gray-800'>
             {Array.from({ length }).map((_, index) => (
                 <li
                     key={index}

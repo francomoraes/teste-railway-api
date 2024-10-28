@@ -78,7 +78,13 @@ const ProductsTable = ({ data, isLoading }: ProductsTableProps) => {
                     ))}
                 </tbody>
             </table>
-            <footer className='mb-0 mt-auto flex justify-center gap-6'>
+            <footer className='mb-0 mt-auto flex justify-center gap-1'>
+                <button
+                    className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === 1 ? 'cursor-not-allowed opacity-40' : ''}`}
+                    onClick={() => setCurrentPage(1)}
+                >
+                    First
+                </button>
                 <button
                     className='rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95'
                     onClick={handlePrevPage}
@@ -91,10 +97,16 @@ const ProductsTable = ({ data, isLoading }: ProductsTableProps) => {
                     setCurrentPage={setCurrentPage}
                 />
                 <button
-                    className='ml-2 rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95'
+                    className='rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95'
                     onClick={handleNextPage}
                 >
                     Next
+                </button>
+                <button
+                    className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === Math.ceil(data.length / itemsPerPage) ? 'cursor-not-allowed opacity-40' : ''}`}
+                    onClick={() => setCurrentPage(Math.ceil(data.length / itemsPerPage))}
+                >
+                    Last
                 </button>
                 <ItemsPerPageSelector
                     data={['10', '20', '30']}

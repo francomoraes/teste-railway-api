@@ -31,7 +31,6 @@ const Products = () => {
                 if (response.ok) {
                     const data = await response.json();
                     if (data) {
-                        console.log('data', data);
                         setProducts(
                             data.map((product: ProductType) => ({
                                 id: product.id,
