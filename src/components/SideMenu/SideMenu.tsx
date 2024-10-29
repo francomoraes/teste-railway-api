@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 import useUserStore from '../../store/useUserStore';
 import useTenantStore from '@/store/useTenantsStore';
@@ -44,6 +44,16 @@ const SideMenu = () => {
         }
     }, [user]);
 
+    const handleLogout = () => {
+        localStorage.removeItem('accessToken');
+
+        setUser(null);
+
+        navigate('/', { replace: true });
+
+        window.location.reload();
+    };
+
     if (!user) return <div className='flex h-full w-[300px] flex-col bg-gray-200 p-4'></div>;
 
     return (
@@ -71,11 +81,7 @@ const SideMenu = () => {
                 <NavLink
                     to='#'
                     className='custom-link mb-0 mt-auto'
-                    onClick={() => {
-                        localStorage.removeItem('accessToken');
-                        navigate('/');
-                        setUser(null);
-                    }}
+                    onClick={handleLogout}
                 >
                     Sair
                 </NavLink>
