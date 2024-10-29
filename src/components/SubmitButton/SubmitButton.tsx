@@ -1,10 +1,10 @@
-const SubmitButton = () => {
+const SubmitButton = ({ text = 'Login' }: { text?: string }) => {
     return (
         <button
             type='submit'
-            className='rounded bg-gray-500 px-4 py-2 font-bold text-white hover:bg-gray-700'
+            className='flex-1 rounded bg-gray-500 px-4 py-2 font-bold text-white hover:bg-gray-700'
         >
-            Login
+            {text}
         </button>
     );
 };
