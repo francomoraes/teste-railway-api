@@ -3,18 +3,24 @@ import { useEffect } from 'react';
 import { Outlet } from 'react-router-dom';
 import { fetchUserData } from '../Login/helpers/fetchUserData';
 import useUserStore from '@/store/useUserStore';
+import useTenantStore from '@/store/useTenantsStore';
+import { useSSEPolyfill } from '@/hooks/useSSEPolyfill';
+import NotificationDisplay from '@/components/NotificationDisplay/NotificationDisplay';
 
 const Layout = () => {
     const { setUser } = useUserStore();
+    const { selectedTenant } = useTenantStore();
+    const accessToken = localStorage.getItem('accessToken');
 
     useEffect(() => {
-        const accessToken = localStorage.getItem('accessToken');
         if (accessToken) {
             fetchUserData(accessToken)
                 .then((user) => setUser(user))
                 .catch((error) => console.error('error:', error));
         }
     }, []);
+
+    const notifications = useSSEPolyfill(selectedTenant?.uuid, accessToken);
 
     return (
         <div className='flex h-full'>
@@ -23,6 +29,7 @@ const Layout = () => {
                 <Header />
                 <Outlet />
             </main>
+            <NotificationDisplay notifications={notifications} />
         </div>
     );
 };
