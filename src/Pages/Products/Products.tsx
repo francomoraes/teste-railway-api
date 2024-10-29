@@ -5,7 +5,7 @@ import { useNavigate } from 'react-router-dom';
 
 const Products = () => {
     const { selectedTenant } = useTenantStore();
-    const { products, isLoading, error } = useFetchProducts(selectedTenant?.uuid);
+    const { products, isLoading, error, refetch } = useFetchProducts(selectedTenant?.uuid);
     const navigate = useNavigate();
 
     const handleRowClick = (item: any) => {
@@ -36,12 +36,18 @@ const Products = () => {
 
     return (
         <div className='flex h-[calc(100%-58px)] flex-col p-4'>
-            <div className='my-4 flex justify-end border border-black p-2'>
+            <div className='my-4 flex justify-end gap-4 border border-black p-2'>
                 <button
                     className='h-10 w-10 rounded-full border-2 border-black bg-gray-500'
                     onClick={handleAddClick}
                 >
                     +
+                </button>
+                <button
+                    className='h-10 w-10 rounded-full border-2 border-black bg-gray-500 text-white'
+                    onClick={refetch}
+                >
+                    ⟳
                 </button>
             </div>
             <div className='flex-grow'>
