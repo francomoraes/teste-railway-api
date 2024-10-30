@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { ItemsPerPageSelector, PageSelector } from './components';
 import SpinnerLoader from '../SpinnerLoader/SpinnerLoader';
 import { IoCaretBack, IoCaretForwardOutline } from 'react-icons/io5';
-import { FaBackward, FaFastBackward, FaFastForward } from 'react-icons/fa';
+import { FaFastBackward, FaFastForward } from 'react-icons/fa';
 
 type DataProps = {
     id: number;
