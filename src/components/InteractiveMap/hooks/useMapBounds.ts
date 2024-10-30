@@ -1,8 +1,9 @@
-import { useMapEvents } from 'react-leaflet';
-import { useState } from 'react';
+import { useMap, useMapEvents } from 'react-leaflet';
+import { useEffect, useState } from 'react';
 import L from 'leaflet';
 
 export const useMapBounds = () => {
+    const map = useMap();
     const [bounds, setBounds] = useState<{
         ur: L.LatLng;
         ul: L.LatLng;
@@ -19,6 +20,12 @@ export const useMapBounds = () => {
             bl: mapBounds.getSouthWest(),
         });
     };
+
+    useEffect(() => {
+        if (map) {
+            updateBounds(map);
+        }
+    }, [map]);
 
     useMapEvents({
         moveend: (event) => updateBounds(event.target),

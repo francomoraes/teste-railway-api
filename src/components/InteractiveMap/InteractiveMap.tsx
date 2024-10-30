@@ -4,10 +4,12 @@ import { useMapBounds } from './hooks/useMapBounds';
 import { useEffect, useState } from 'react';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
+import SpinnerLoader from '../SpinnerLoader/SpinnerLoader';
 
 const InteractiveMap = () => {
     const bounds = useMapBounds();
     const [points, setPoints] = useState<any[]>([] as any);
+    const [loading, setLoading] = useState(true);
 
     const { ul, ur, br, bl } = bounds || {};
 
@@ -18,6 +20,7 @@ const InteractiveMap = () => {
         const accessToken = localStorage.getItem('accessToken');
 
         const fetchPoints = async () => {
+            setLoading(true);
             try {
                 const response = await fetch(
                     `${import.meta.env.VITE_BASE_URL}points?ul=${ul.lat},${ul.lng}&bl=${bl.lat},${bl.lng}&ur=${ur.lat},${ur.lng}&br=${br.lat},${br.lng}&responseType=geojson`,
@@ -37,11 +40,22 @@ const InteractiveMap = () => {
                 setPoints(data);
             } catch (error) {
                 console.error('Erro ao requisitar pontos', error);
+            } finally {
+                setLoading(false);
             }
         };
 
         fetchPoints();
     }, [bounds]);
+
+    if (loading)
+        return (
+            <div className='flex h-full w-full flex-1 flex-col items-center justify-center'>
+                <div className='h-40 w-40'>
+                    <SpinnerLoader />
+                </div>
+            </div>
+        );
 
     return (
         <div className='h-full w-full'>
