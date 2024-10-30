@@ -95,7 +95,7 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
                     <FaFastBackward />
                 </button>
                 <button
-                    className='rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95'
+                    className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === 1 || data.length <= 1 ? 'cursor-not-allowed opacity-40' : ''}`}
                     onClick={handlePrevPage}
                 >
                     <IoCaretBack />
@@ -106,7 +106,7 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
                     setCurrentPage={setCurrentPage}
                 />
                 <button
-                    className='rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95'
+                    className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === Math.ceil(data.length / itemsPerPage) || data.length <= 1 ? 'cursor-not-allowed opacity-40' : ''}`}
                     onClick={handleNextPage}
                 >
                     <IoCaretForwardOutline />
