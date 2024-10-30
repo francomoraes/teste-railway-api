@@ -12,8 +12,10 @@ const PageSelector = ({
             {Array.from({ length }).map((_, index) => (
                 <li
                     key={index}
-                    className={`cursor-pointer rounded-md px-4 py-2 transition-all ${
-                        currentPage === index + 1 ? 'bg-blue-500 text-white' : 'bg-gray-200'
+                    className={`cursor-pointer rounded-md px-3 py-1 transition-colors duration-200 ${
+                        currentPage === index + 1
+                            ? 'bg-blue-500 font-semibold text-white shadow-md'
+                            : 'bg-gray-100 text-gray-700 hover:bg-gray-200'
                     }`}
                     onClick={() => setCurrentPage(index + 1)}
                 >

@@ -4,7 +4,7 @@ export default {
     theme: {
         extend: {},
         fontFamily: {
-            confortaa: ['Comfortaa', 'sans-serif'],
+            roboto: ['Roboto', 'sans-serif'],
         },
     },
     plugins: [],

@@ -5,6 +5,7 @@ import { SubmitHandler, useForm } from 'react-hook-form';
 import { AddProductFormData } from './types';
 import { handleAddProduct } from './service/handleAddProduct';
 import TextField from '@/components/TextField/TextField';
+import { motion } from 'framer-motion';
 
 const AddProducts = () => {
     const { selectedTenant } = useTenantStore();
@@ -49,7 +50,12 @@ const AddProducts = () => {
     if (error) return <p className='text-red-500'>Erro: {error}</p>;
 
     return (
-        <div className='mt-10 flex flex-col items-center justify-center p-4'>
+        <motion.div
+            className='mt-10 flex flex-col items-center justify-center p-4'
+            initial={{ opacity: 0, scale: 0.9 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.3 }}
+        >
             <form
                 className='flex w-[300px] flex-col gap-4'
                 onSubmit={handleSubmit(onSubmit)}
@@ -86,14 +92,14 @@ const AddProducts = () => {
                     <button
                         type='submit'
                         disabled={isLoading}
-                        className='flex-1 rounded bg-green-500 px-4 py-2 font-bold text-white hover:bg-green-700'
+                        className='flex-1 rounded bg-blue-500 px-4 py-2 font-bold text-white hover:bg-blue-700'
                     >
                         Salvar
                     </button>
                 </div>
             </form>
-            {successMessage && <p className='pt-10 text-green-500'>{successMessage}</p>}
-        </div>
+            {successMessage && <p className='pt-10 text-blue-500'>{successMessage}</p>}
+        </motion.div>
     );
 };
 

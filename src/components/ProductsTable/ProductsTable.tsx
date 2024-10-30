@@ -1,6 +1,8 @@
 import { useEffect, useState } from 'react';
 import { ItemsPerPageSelector, PageSelector } from './components';
 import SpinnerLoader from '../SpinnerLoader/SpinnerLoader';
+import { IoCaretBack, IoCaretForwardOutline } from 'react-icons/io5';
+import { FaBackward, FaFastBackward, FaFastForward } from 'react-icons/fa';
 
 type DataProps = {
     id: number;
@@ -90,13 +92,13 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
                     className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === 1 ? 'cursor-not-allowed opacity-40' : ''}`}
                     onClick={() => setCurrentPage(1)}
                 >
-                    First
+                    <FaFastBackward />
                 </button>
                 <button
                     className='rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95'
                     onClick={handlePrevPage}
                 >
-                    Prev
+                    <IoCaretBack />
                 </button>
                 <PageSelector
                     length={Math.ceil(data.length / itemsPerPage)}
@@ -107,13 +109,13 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
                     className='rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95'
                     onClick={handleNextPage}
                 >
-                    Next
+                    <IoCaretForwardOutline />
                 </button>
                 <button
                     className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === Math.ceil(data.length / itemsPerPage) ? 'cursor-not-allowed opacity-40' : ''}`}
                     onClick={() => setCurrentPage(Math.ceil(data.length / itemsPerPage))}
                 >
-                    Last
+                    <FaFastForward />
                 </button>
                 <ItemsPerPageSelector
                     data={['5', '10', '15']}

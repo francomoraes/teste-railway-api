@@ -14,36 +14,35 @@ const RoutesComponent = () => {
                     path='/'
                     element={<Layout />}
                 >
+                    <Route
+                        index
+                        element={user ? <Home /> : <Login />}
+                    />
                     {user ? (
                         <>
                             <Route
-                                path='/'
-                                element={<Home />}
-                            />
-                            <Route
-                                path='/products'
+                                path='products'
                                 element={<Products />}
                             />
                             <Route
-                                path='/products/:productId'
+                                path='products/:productId'
                                 element={<ProductDetail />}
                             />
                             <Route
-                                path='/products/add-product'
+                                path='products/add-product'
                                 element={<AddProducts />}
                             />
                         </>
                     ) : (
-                        <>
-                            <Route
-                                path='/'
-                                element={<Login />}
-                            />
-                            <Route
-                                path='*'
-                                element={<Navigate to='/' />}
-                            />
-                        </>
+                        <Route
+                            path='*'
+                            element={
+                                <Navigate
+                                    to='/'
+                                    replace
+                                />
+                            }
+                        />
                     )}
                 </Route>
             </Routes>

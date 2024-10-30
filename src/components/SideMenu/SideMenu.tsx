@@ -54,18 +54,20 @@ const SideMenu = () => {
         window.location.reload();
     };
 
-    if (!user) return <div className='flex h-full w-[300px] flex-col bg-gray-200 p-4'></div>;
+    if (!user) return null;
 
     return (
-        <div className='flex h-full w-[300px] flex-col bg-gray-200 p-4'>
+        <div className='flex h-full w-[300px] flex-col bg-gray-100 p-4'>
             <div>
                 <Dropdown data={tenantsList} />
             </div>
-            <div className='mt-10 flex h-full flex-col gap-2'>
+            <div className='font-confortaa mt-10 flex h-full flex-col gap-2 transition-all'>
                 <NavLink
                     to='/'
                     className={({ isActive }) => {
-                        return isActive ? 'custom-link !bg-gray-500 text-white' : 'custom-link';
+                        return isActive
+                            ? 'custom-link pointer-events-none !cursor-none !bg-gray-500 !pl-4 font-bold text-white transition-all'
+                            : 'custom-link font-light';
                     }}
                 >
                     Página Inicial
@@ -73,7 +75,9 @@ const SideMenu = () => {
                 <NavLink
                     to='products'
                     className={({ isActive }) => {
-                        return isActive ? 'custom-link !bg-gray-500 text-white' : 'custom-link';
+                        return isActive
+                            ? 'custom-link pointer-events-none !cursor-none !bg-gray-500 !pl-4 font-bold text-white transition-all'
+                            : 'custom-link font-light';
                     }}
                 >
                     Produtos

@@ -51,7 +51,7 @@ const InteractiveMap = () => {
 
     const createClusterCustomIcon = (cluster: any) => {
         return L.divIcon({
-            html: `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Comfortaa', serif; font-weight: 600">${cluster.getChildCount()}</div>`,
+            html: `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Roboto', serif; font-weight: 600">${cluster.getChildCount()}</div>`,
             className: 'border-2 border-gray-400 bg-gray-200 text-gray-600 rounded-full font-medium shadow-sm',
             iconSize: L.point(40, 40, true),
         });
