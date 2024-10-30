@@ -4,12 +4,10 @@ import { useMapBounds } from './hooks/useMapBounds';
 import { useEffect, useState } from 'react';
 import MarkerClusterGroup from 'react-leaflet-cluster';
 import L from 'leaflet';
-import SpinnerLoader from '../SpinnerLoader/SpinnerLoader';
 
 const InteractiveMap = () => {
     const bounds = useMapBounds();
     const [points, setPoints] = useState<any[]>([] as any);
-    const [loading, setLoading] = useState(true);
 
     const { ul, ur, br, bl } = bounds || {};
 
@@ -20,7 +18,6 @@ const InteractiveMap = () => {
         const accessToken = localStorage.getItem('accessToken');
 
         const fetchPoints = async () => {
-            setLoading(true);
             try {
                 const response = await fetch(
                     `${import.meta.env.VITE_BASE_URL}points?ul=${ul.lat},${ul.lng}&bl=${bl.lat},${bl.lng}&ur=${ur.lat},${ur.lng}&br=${br.lat},${br.lng}&responseType=geojson`,
@@ -41,21 +38,24 @@ const InteractiveMap = () => {
             } catch (error) {
                 console.error('Erro ao requisitar pontos', error);
             } finally {
-                setLoading(false);
             }
         };
 
         fetchPoints();
     }, [bounds]);
 
-    if (loading)
-        return (
-            <div className='flex h-full w-full flex-1 flex-col items-center justify-center'>
-                <div className='h-40 w-40'>
-                    <SpinnerLoader />
-                </div>
-            </div>
-        );
+    const customIcon = new L.Icon({
+        iconUrl: './location.svg',
+        iconSize: new L.Point(40, 47),
+    });
+
+    const createClusterCustomIcon = (cluster: any) => {
+        return L.divIcon({
+            html: `<div style="width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-family: 'Comfortaa', serif; font-weight: 600">${cluster.getChildCount()}</div>`,
+            className: 'border-2 border-gray-400 bg-gray-200 text-gray-600 rounded-full font-medium shadow-sm',
+            iconSize: L.point(40, 40, true),
+        });
+    };
 
     return (
         <div className='h-full w-full'>
@@ -63,20 +63,21 @@ const InteractiveMap = () => {
                 attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
                 url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
             />
-            <MarkerClusterGroup chunkedLoading>
+            <MarkerClusterGroup
+                chunkedLoading
+                showCoverageOnHover={false}
+                spiderfyOnMaxZoom={false}
+                iconCreateFunction={createClusterCustomIcon}
+            >
                 {points?.map((point, index) => {
                     const [longitude, latitude] = point.geometry.coordinates;
+                    console.log('point', point);
                     return (
                         <Marker
                             key={index}
                             position={[latitude, longitude]}
                             title={point?.type}
-                            icon={
-                                new L.Icon({
-                                    iconUrl: `path/to/icon/${point?.properties?.['marker-symbol']}.png`,
-                                    iconSize: [25, 25],
-                                })
-                            }
+                            icon={customIcon}
                         ></Marker>
                     );
                 })}
