@@ -68,7 +68,7 @@ const SideMenu = () => {
                         return isActive ? 'custom-link !bg-gray-500 text-white' : 'custom-link';
                     }}
                 >
-                    Home
+                    Página Inicial
                 </NavLink>
                 <NavLink
                     to='products'

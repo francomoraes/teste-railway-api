@@ -1,80 +1,73 @@
-import React, { useEffect, useState } from 'react';
-import { MapContainer, TileLayer, Marker, useMapEvents } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css';
-import Supercluster from 'supercluster';
+import { Marker, TileLayer } from 'react-leaflet';
+import { useMapBounds } from './hooks/useMapBounds';
+import { useEffect, useState } from 'react';
+import MarkerClusterGroup from 'react-leaflet-cluster';
+import L from 'leaflet';
 
-interface Point {
-    id: number;
-    latitude: number;
-    longitude: number;
-}
+const InteractiveMap = () => {
+    const bounds = useMapBounds();
+    const [points, setPoints] = useState<any[]>([] as any);
 
-interface InteractiveMapProps {
-    points: Point[];
-}
-
-const InteractiveMap: React.FC<InteractiveMapProps> = ({ points }) => {
-    const [clusters, setClusters] = useState<any[]>([]);
-    const [viewportBounds, setViewportBounds] = useState<[number, number, number, number] | null>(null);
-
-    // Criando a instância do Supercluster
-    const cluster = new Supercluster({
-        radius: 40, // Ajuste o raio do cluster conforme necessário
-        maxZoom: 18,
-    });
+    const { ul, ur, br, bl } = bounds || {};
 
     useEffect(() => {
-        const mappedPoints = points?.map((point) => ({
-            type: 'Feature' as const,
-            geometry: { type: 'Point' as const, coordinates: [point.longitude, point.latitude] },
-            properties: { id: point.id },
-        }));
+        if (!ul || !ur || !br || !bl) {
+            return;
+        }
+        const accessToken = localStorage.getItem('accessToken');
 
-        cluster.load(mappedPoints);
-        updateClusters();
-    }, [points, viewportBounds]);
+        const fetchPoints = async () => {
+            try {
+                const response = await fetch(
+                    `${import.meta.env.VITE_BASE_URL}points?ul=${ul.lat},${ul.lng}&bl=${bl.lat},${bl.lng}&ur=${ur.lat},${ur.lng}&br=${br.lat},${br.lng}&responseType=geojson`,
+                    {
+                        headers: {
+                            Authorization: `Bearer ${accessToken}`,
+                        },
+                    }
+                );
 
-    const updateClusters = () => {
-        if (!viewportBounds) return;
+                if (!response.ok) {
+                    throw new Error('Erro ao requisitar pontos');
+                }
 
-        const clusters = cluster.getClusters(viewportBounds, 13); // Zoom 13 como exemplo
-        setClusters(clusters);
-    };
+                const data = await response.json();
 
-    // Captura os limites do mapa quando o usuário navega
-    const MapEvents = () => {
-        useMapEvents({
-            moveend: (event: { target: { getBounds: () => any } }) => {
-                const bounds = event.target.getBounds();
-                setViewportBounds([bounds.getWest(), bounds.getSouth(), bounds.getEast(), bounds.getNorth()]);
-            },
-        });
-        return null;
-    };
+                setPoints(data);
+            } catch (error) {
+                console.error('Erro ao requisitar pontos', error);
+            }
+        };
+
+        fetchPoints();
+    }, [bounds]);
 
     return (
-        <MapContainer
-            style={{
-                height: '640px',
-            }}
-            center={[-23.5489, -46.6388]}
-            zoom={10}
-            scrollWheelZoom={true}
-        >
-            <TileLayer url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png' />
-            {clusters.map((cluster) => {
-                const [longitude, latitude] = cluster.geometry.coordinates;
-                return (
-                    <Marker
-                        key={cluster.id}
-                        position={[latitude, longitude]}
-                    >
-                        {/* Pode adicionar um popup ou estilo diferenciado se for um cluster */}
-                    </Marker>
-                );
-            })}
-            <MapEvents />
-        </MapContainer>
+        <div className='h-full w-full'>
+            <TileLayer
+                attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
+            />
+            <MarkerClusterGroup chunkedLoading>
+                {points?.map((point, index) => {
+                    const [longitude, latitude] = point.geometry.coordinates;
+                    return (
+                        <Marker
+                            key={index}
+                            position={[latitude, longitude]}
+                            title={point?.type}
+                            icon={
+                                new L.Icon({
+                                    iconUrl: `path/to/icon/${point?.properties?.['marker-symbol']}.png`,
+                                    iconSize: [25, 25],
+                                })
+                            }
+                        ></Marker>
+                    );
+                })}
+            </MarkerClusterGroup>
+        </div>
     );
 };
 

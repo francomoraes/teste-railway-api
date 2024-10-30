@@ -75,7 +75,12 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
                             <td className='custom-td'>{item.id}</td>
                             <td className='custom-td'>{item.name}</td>
                             <td className='custom-td'>{item.description}</td>
-                            <td className='custom-td !text-right'>{item.price}</td>
+                            <td className='custom-td !text-right'>
+                                {(item.price / 100).toLocaleString('pt-br', {
+                                    style: 'currency',
+                                    currency: 'BRL',
+                                })}
+                            </td>
                         </tr>
                     ))}
                 </tbody>

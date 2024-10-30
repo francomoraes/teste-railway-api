@@ -30,7 +30,15 @@ export const handleAddProduct = async (
         }
 
         const parsedData = await response.json();
-        setSuccessMessage(`Produto cadastrado com sucesso! ${parsedData.name} - R$ ${parsedData.price.toFixed(2)}`);
+        setSuccessMessage(
+            `Produto cadastrado com sucesso! ${parsedData.name} - R$ ${(parsedData.price / 100).toLocaleString(
+                'pt-br',
+                {
+                    style: 'currency',
+                    currency: 'BRL',
+                }
+            )}`
+        );
 
         setTimeout(() => {
             setSuccessMessage(null);

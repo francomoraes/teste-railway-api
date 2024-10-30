@@ -11,6 +11,7 @@ const AddProducts = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
+    const [priceInCents, setPriceInCents] = useState<number | null>(null);
 
     const {
         register,
@@ -20,9 +21,19 @@ const AddProducts = () => {
     } = useForm<AddProductFormData>();
 
     const onSubmit: SubmitHandler<AddProductFormData> = async (data) => {
+        console.log('data', data);
         const accessToken = localStorage.getItem('accessToken');
         if (selectedTenant) {
-            handleAddProduct(data, selectedTenant?.uuid, accessToken, setIsLoading, setSuccessMessage, setError, reset);
+            const formData = { ...data, price: priceInCents } as AddProductFormData;
+            handleAddProduct(
+                formData,
+                selectedTenant?.uuid,
+                accessToken,
+                setIsLoading,
+                setSuccessMessage,
+                setError,
+                reset
+            );
         }
     };
 
@@ -44,7 +55,7 @@ const AddProducts = () => {
                 onSubmit={handleSubmit(onSubmit)}
             >
                 <TextField
-                    label='Descrição do produto'
+                    label='Nome do produto'
                     register={register('name', { required: 'Nome é obrigatório' })}
                     error={errors.name?.message}
                 />
@@ -55,8 +66,14 @@ const AddProducts = () => {
                 />
                 <TextField
                     label='Preço do produto'
-                    register={register('price', { required: 'Preço é obrigatório', valueAsNumber: true })}
+                    register={register('price', {
+                        required: 'Preço é obrigatório',
+                        valueAsNumber: true,
+                        min: { value: 0.01, message: 'O preço deve ser maior que zero' },
+                    })}
                     error={errors.price?.message}
+                    isPrice={true}
+                    onPriceChange={(valueInCents) => setPriceInCents(valueInCents)}
                 />
                 <div className='flex w-full gap-2'>
                     <button

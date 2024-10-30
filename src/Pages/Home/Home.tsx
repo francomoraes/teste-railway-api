@@ -1,15 +1,17 @@
 import InteractiveMap from '@/components/InteractiveMap/InteractiveMap';
-
-const points = [
-    { id: 1, latitude: -23.5489, longitude: -46.6388 },
-    { id: 2, latitude: -22.9068, longitude: -43.1729 },
-    { id: 3, latitude: -19.9167, longitude: -43.9345 },
-];
+import { MapContainer } from 'react-leaflet';
 
 const Home = () => {
     return (
         <div className='h-[calc(100%-58px)] p-4'>
-            <InteractiveMap points={points} />
+            <MapContainer
+                center={[-10.9, -37.07]}
+                zoom={13}
+                scrollWheelZoom={true}
+                className='h-full w-full'
+            >
+                <InteractiveMap />
+            </MapContainer>
         </div>
     );
 };
