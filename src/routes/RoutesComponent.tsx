@@ -1,4 +1,4 @@
-import { HashRouter, Route, Routes } from 'react-router-dom';
+import { HashRouter, Navigate, Route, Routes } from 'react-router-dom';
 import useUserStore from '../store/useUserStore';
 import { Home, Layout, Login, Products } from '../Pages';
 import ProductDetail from '@/Pages/Products/Pages/ProductDetail/ProductDetail';
@@ -34,10 +34,16 @@ const RoutesComponent = () => {
                             />
                         </>
                     ) : (
-                        <Route
-                            path='/'
-                            element={<Login />}
-                        />
+                        <>
+                            <Route
+                                path='/'
+                                element={<Login />}
+                            />
+                            <Route
+                                path='*'
+                                element={<Navigate to='/' />}
+                            />
+                        </>
                     )}
                 </Route>
             </Routes>

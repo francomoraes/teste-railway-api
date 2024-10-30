@@ -8,7 +8,7 @@ import { useSSEPolyfill } from '@/hooks/useSSEPolyfill';
 import NotificationDisplay from '@/components/NotificationDisplay/NotificationDisplay';
 
 const Layout = () => {
-    const { setUser } = useUserStore();
+    const { user, setUser } = useUserStore();
     const { selectedTenant } = useTenantStore();
     const accessToken = localStorage.getItem('accessToken');
 
@@ -24,8 +24,8 @@ const Layout = () => {
 
     return (
         <div className='flex h-full'>
-            <SideMenu />
-            <main className='flex-1'>
+            {user && <SideMenu />}
+            <main className='flex flex-1 flex-col'>
                 <Header />
                 <Outlet />
             </main>

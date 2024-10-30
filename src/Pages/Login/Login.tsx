@@ -37,7 +37,7 @@ const Login = () => {
 
     if (isLoading)
         return (
-            <div className='flex h-[calc(100%-58px)] w-full flex-col items-center justify-center'>
+            <div className='flex w-full flex-1 flex-col items-center justify-center'>
                 <div className='h-40 w-40'>
                     <SpinnerLoader />
                 </div>
@@ -45,12 +45,12 @@ const Login = () => {
         );
 
     return (
-        <div className='mt-10 flex flex-col items-center justify-center'>
-            <h2 className='custom-h2'>Login</h2>
+        <div className='flex flex-1 flex-col items-center justify-center'>
             <form
-                className='flex w-[300px] flex-col gap-4'
+                className='flex w-[300px] flex-col gap-4 rounded-sm border-2 border-gray-200/20 p-6 shadow-md'
                 onSubmit={handleSubmit(onSubmit)}
             >
+                <h2 className='custom-h2'>Login</h2>
                 <EmailInput
                     register={register}
                     errors={errors}

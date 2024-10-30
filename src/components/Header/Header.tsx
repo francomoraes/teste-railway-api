@@ -13,6 +13,8 @@ const Header = () => {
         navigate(-1);
     };
 
+    if (!user) return null;
+
     return (
         <div className='flex w-full justify-between border border-black p-4'>
             {showBackButton && (
