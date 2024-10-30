@@ -33,7 +33,7 @@ const Header = () => {
                     className='flex items-center gap-2 rounded-full bg-gray-200 px-3 py-2 font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-300 hover:text-gray-800'
                 >
                     <IoMdArrowRoundBack className='h-5 w-5' />
-                    <span>{selectedProduct?.name}</span>
+                    <span>{selectedProduct ? selectedProduct?.name : 'Criar um produto'}</span>
                 </button>
             )}
             <span className='ml-auto text-lg font-semibold text-gray-700'>Olá, {user?.firstName}</span>
