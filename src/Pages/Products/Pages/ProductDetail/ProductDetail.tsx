@@ -49,18 +49,21 @@ const ProductDetail = () => {
         );
     }
 
+    const { name, description, price } = product || {};
+
     return (
         <div className='m-4 mt-10 flex-1 rounded-lg border-2 border-gray-500/10 bg-white p-8 shadow-md'>
             <h2 className='mb-4 text-2xl font-bold text-gray-800'>Detalhes do produto</h2>
             <div className='space-y-2 text-gray-700'>
                 <p className='font-semibold'>
-                    <span className='text-gray-900'>Nome:</span> {product.name}
+                    <span className='text-gray-900'>Nome:</span> {name}
                 </p>
                 <p className='font-semibold'>
-                    <span className='text-gray-900'>Descrição:</span> {product.description}
+                    <span className='text-gray-900'>Descrição:</span> {description}
                 </p>
                 <p className='font-semibold'>
-                    <span className='text-gray-900'>Preço:</span> {product.price}
+                    <span className='text-gray-900'>Preço:</span>
+                    {(price / 100).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                 </p>
             </div>
         </div>

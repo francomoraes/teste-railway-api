@@ -1,4 +1,4 @@
-import { UseFormRegisterReturn } from 'react-hook-form';
+import { UseFormRegisterReturn, UseFormSetValue } from 'react-hook-form';
 import { useState } from 'react';
 
 interface TextFieldProps {
@@ -8,35 +8,47 @@ interface TextFieldProps {
     type?: string;
     isPrice?: boolean;
     onPriceChange?: (value: number) => void;
+    setValue?: UseFormSetValue<any>;
+    name?: string;
 }
 
-const TextField = ({ label, register, error, type = 'text', isPrice = false, onPriceChange }: TextFieldProps) => {
-    const [value, setValue] = useState('');
+const TextField = ({ label, register, error, type = 'text', isPrice = false, setValue, name }: TextFieldProps) => {
+    const [displayValue, setDisplayValue] = useState('');
 
-    const formatPriceToReais = (value: string) => {
-        const numericValue = parseInt(value.replace(/\D/g, '')) || 0;
-        return `R$ ${(numericValue / 100).toFixed(2).replace('.', ',')}`;
-    };
+    const handleDisplayChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const rawValue = e.target.value.replace(/\D/g, '');
+        const numericValue = Number(rawValue) / 100;
 
-    const handlePriceChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const rawValue = e.target.value;
-        const numericValue = parseInt(rawValue.replace(/\D/g, '')) || 0;
-        const formattedValue = formatPriceToReais(rawValue);
-        setValue(formattedValue);
-        if (onPriceChange) onPriceChange(numericValue);
+        setDisplayValue(
+            numericValue.toLocaleString('pt-BR', {
+                style: 'currency',
+                currency: 'BRL',
+            })
+        );
+
+        setValue && setValue(name ? name : '', rawValue);
     };
 
     return (
-        <div className='flex'>
+        <div className='flex flex-col'>
             <input
                 {...register}
-                type={type}
                 placeholder={label}
-                value={isPrice ? value : undefined}
-                onChange={isPrice ? handlePriceChange : register.onChange}
                 className='flex-1 rounded-md border-2 border-gray-400/40 p-1'
+                type={isPrice ? 'hidden' : ''}
             />
-            {error && <p className='text-red-500'>{error}</p>}
+
+            {isPrice && (
+                <input
+                    type='text'
+                    placeholder={label}
+                    value={displayValue}
+                    onChange={handleDisplayChange}
+                    className='flex-1 rounded-md border-2 border-gray-400/40 p-1'
+                />
+            )}
+
+            {error && <p className='mt-1 text-xs text-red-500'>{error}</p>}
         </div>
     );
 };

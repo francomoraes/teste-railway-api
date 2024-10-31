@@ -12,28 +12,20 @@ const AddProducts = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [successMessage, setSuccessMessage] = useState<string | null>(null);
     const [error, setError] = useState<string | null>(null);
-    const [priceInCents, setPriceInCents] = useState<number | null>(null);
 
     const {
         register,
         handleSubmit,
         formState: { errors },
         reset,
+        setValue,
     } = useForm<AddProductFormData>();
 
     const onSubmit: SubmitHandler<AddProductFormData> = async (data) => {
         const accessToken = localStorage.getItem('accessToken');
         if (selectedTenant) {
-            const formData = { ...data, price: priceInCents } as AddProductFormData;
-            handleAddProduct(
-                formData,
-                selectedTenant?.uuid,
-                accessToken,
-                setIsLoading,
-                setSuccessMessage,
-                setError,
-                reset
-            );
+            console.log('data', data);
+            // handleAddProduct(data, selectedTenant?.uuid, accessToken, setIsLoading, setSuccessMessage, setError, reset);
         }
     };
 
@@ -72,13 +64,14 @@ const AddProducts = () => {
                 <TextField
                     label='Preço do produto'
                     register={register('price', {
-                        required: 'Preço é obrigatório',
+                        required: 'Preço é obrigatório e deve ser maior do que zero',
                         valueAsNumber: true,
                         min: { value: 0.01, message: 'O preço deve ser maior que zero' },
                     })}
+                    isPrice
+                    name='price'
+                    setValue={setValue}
                     error={errors.price?.message}
-                    isPrice={true}
-                    onPriceChange={(valueInCents) => setPriceInCents(valueInCents)}
                 />
                 <div className='flex w-full gap-2'>
                     <button
