@@ -35,7 +35,7 @@ const TextField = ({ label, register, error, type = 'text', isPrice = false, set
                 {...register}
                 placeholder={label}
                 className='flex-1 rounded-md border-2 border-gray-400/40 p-1'
-                type={isPrice ? 'hidden' : ''}
+                type={isPrice ? 'hidden' : type}
             />
 
             {isPrice && (
