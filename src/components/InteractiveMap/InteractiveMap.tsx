@@ -71,7 +71,6 @@ const InteractiveMap = () => {
             >
                 {points?.map((point, index) => {
                     const [longitude, latitude] = point.geometry.coordinates;
-                    console.log('point', point);
                     return (
                         <Marker
                             key={index}

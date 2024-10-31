@@ -7,6 +7,8 @@ export type Tenant = {
 };
 
 type TenantStore = {
+    tenantsList: string[];
+    setTenantsList: (tenants: string[]) => void;
     tenants: Tenant[] | null;
     setTenants: (tenants: Tenant[] | null) => void;
     selectedTenant: Tenant | null;
@@ -14,6 +16,8 @@ type TenantStore = {
 };
 
 const useTenantStore = create<TenantStore>((set) => ({
+    tenantsList: [],
+    setTenantsList: (tenants: string[]) => set({ tenantsList: tenants }),
     tenants: null,
     setTenants: (tenants: Tenant[] | null) => set({ tenants }),
     selectedTenant: null,

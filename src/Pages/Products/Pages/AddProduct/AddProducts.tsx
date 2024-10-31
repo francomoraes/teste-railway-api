@@ -22,7 +22,6 @@ const AddProducts = () => {
     } = useForm<AddProductFormData>();
 
     const onSubmit: SubmitHandler<AddProductFormData> = async (data) => {
-        console.log('data', data);
         const accessToken = localStorage.getItem('accessToken');
         if (selectedTenant) {
             const formData = { ...data, price: priceInCents } as AddProductFormData;

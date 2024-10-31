@@ -44,13 +44,13 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
     }, [currentPage, itemsPerPage, data]);
 
     if (data.length === 0) {
-        return <div className='flex h-full items-center justify-center'>No data available</div>;
+        return <div className='flex h-full items-center justify-center text-sm sm:text-base'>No data available</div>;
     }
 
     if (isLoading)
         return (
             <div className='flex h-[calc(100%-58px)] w-full flex-col items-center justify-center'>
-                <div className='h-40 w-40'>
+                <div className='h-20 w-20 sm:h-40 sm:w-40'>
                     <SpinnerLoader />
                 </div>
             </div>
@@ -58,26 +58,26 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
 
     return (
         <div className='flex h-full flex-col'>
-            <table className='min-w-full border-collapse border border-gray-200'>
+            <table className='min-w-full border-collapse border border-gray-200 text-xs sm:text-sm'>
                 <thead>
                     <tr className='bg-gray-100 text-gray-700'>
-                        <th className='custom-th'>Id</th>
-                        <th className='custom-th'>Name</th>
-                        <th className='custom-th'>Description</th>
-                        <th className='custom-th'>Price</th>
+                        <th className='custom-th px-2 sm:px-4'>Id</th>
+                        <th className='custom-th px-2 sm:px-4'>Name</th>
+                        <th className='custom-th px-2 sm:px-4'>Description</th>
+                        <th className='custom-th px-2 sm:px-4'>Price</th>
                     </tr>
                 </thead>
                 <tbody>
                     {dataToDisplay.map((item) => (
                         <tr
                             key={item.id}
-                            className='text-gray-800 odd:bg-white even:bg-gray-50'
+                            className='cursor-pointer text-gray-800 odd:bg-white even:bg-gray-50 hover:bg-gray-100'
                             onClick={() => handleRowClick && handleRowClick(item)}
                         >
-                            <td className='custom-td'>{item.id}</td>
-                            <td className='custom-td'>{item.name}</td>
-                            <td className='custom-td'>{item.description}</td>
-                            <td className='custom-td !text-right'>
+                            <td className='custom-td px-2 sm:px-4'>{item.id}</td>
+                            <td className='custom-td px-2 sm:px-4'>{item.name}</td>
+                            <td className='custom-td px-2 sm:px-4'>{item.description}</td>
+                            <td className='custom-td px-2 !text-right sm:px-4'>
                                 {(item.price / 100).toLocaleString('pt-br', {
                                     style: 'currency',
                                     currency: 'BRL',
@@ -87,18 +87,18 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
                     ))}
                 </tbody>
             </table>
-            <footer className='mb-0 mt-auto flex justify-center gap-1'>
+            <footer className='mb-0 mt-auto flex flex-wrap justify-center gap-1 p-2 sm:p-4'>
                 <button
-                    className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === 1 ? 'cursor-not-allowed opacity-40' : ''}`}
+                    className={`rounded-md bg-gray-200 px-2 py-1 hover:bg-gray-300 active:scale-95 sm:px-4 sm:py-2 ${currentPage === 1 ? 'cursor-not-allowed opacity-40' : ''}`}
                     onClick={() => setCurrentPage(1)}
                 >
-                    <FaFastBackward />
+                    <FaFastBackward className='text-xs sm:text-base' />
                 </button>
                 <button
-                    className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === 1 || data.length <= 1 ? 'cursor-not-allowed opacity-40' : ''}`}
+                    className={`rounded-md bg-gray-200 px-2 py-1 hover:bg-gray-300 active:scale-95 sm:px-4 sm:py-2 ${currentPage === 1 || data.length <= 1 ? 'cursor-not-allowed opacity-40' : ''}`}
                     onClick={handlePrevPage}
                 >
-                    <IoCaretBack />
+                    <IoCaretBack className='text-xs sm:text-base' />
                 </button>
                 <PageSelector
                     length={Math.ceil(data.length / itemsPerPage)}
@@ -106,16 +106,16 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
                     setCurrentPage={setCurrentPage}
                 />
                 <button
-                    className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === Math.ceil(data.length / itemsPerPage) || data.length <= 1 ? 'cursor-not-allowed opacity-40' : ''}`}
+                    className={`rounded-md bg-gray-200 px-2 py-1 hover:bg-gray-300 active:scale-95 sm:px-4 sm:py-2 ${currentPage === Math.ceil(data.length / itemsPerPage) || data.length <= 1 ? 'cursor-not-allowed opacity-40' : ''}`}
                     onClick={handleNextPage}
                 >
-                    <IoCaretForwardOutline />
+                    <IoCaretForwardOutline className='text-xs sm:text-base' />
                 </button>
                 <button
-                    className={`rounded-md bg-gray-200 px-4 py-2 hover:bg-gray-300 active:scale-95 ${currentPage === Math.ceil(data.length / itemsPerPage) ? 'cursor-not-allowed opacity-40' : ''}`}
+                    className={`rounded-md bg-gray-200 px-2 py-1 hover:bg-gray-300 active:scale-95 sm:px-4 sm:py-2 ${currentPage === Math.ceil(data.length / itemsPerPage) ? 'cursor-not-allowed opacity-40' : ''}`}
                     onClick={() => setCurrentPage(Math.ceil(data.length / itemsPerPage))}
                 >
-                    <FaFastForward />
+                    <FaFastForward className='text-xs sm:text-base' />
                 </button>
                 <ItemsPerPageSelector
                     data={['5', '10', '15']}

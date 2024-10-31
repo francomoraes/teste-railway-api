@@ -31,16 +31,6 @@ const Dropdown = ({ data = [] }: { data?: string[] }) => {
         }
     };
 
-    useEffect(() => {
-        if (data) {
-            handleSelectTenant(data[0]);
-        }
-
-        return () => {
-            setSelectedTenant(null);
-        };
-    }, [data]);
-
     return (
         <div
             id='dropdown-container'
