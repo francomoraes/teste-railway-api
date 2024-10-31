@@ -61,10 +61,10 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
             <table className='min-w-full border-collapse border border-gray-200 text-xs sm:text-sm'>
                 <thead>
                     <tr className='bg-gray-100 text-gray-700'>
-                        <th className='custom-th px-2 sm:px-4'>Id</th>
-                        <th className='custom-th px-2 sm:px-4'>Name</th>
-                        <th className='custom-th px-2 sm:px-4'>Description</th>
-                        <th className='custom-th px-2 sm:px-4'>Price</th>
+                        <th className='custom-th w-[10%] px-2 text-left sm:px-4'>Id</th>
+                        <th className='custom-th w-[20%] px-2 text-left sm:px-4'>Nome</th>
+                        <th className='custom-th w-[55%] px-2 text-left sm:px-4'>Descrição</th>
+                        <th className='custom-th w-[15%] px-2 text-left sm:px-4'>Preço</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -74,14 +74,12 @@ const ProductsTable = ({ data, isLoading, handleRowClick }: ProductsTableProps) 
                             className='cursor-pointer text-gray-800 odd:bg-white even:bg-gray-50 hover:bg-gray-100'
                             onClick={() => handleRowClick && handleRowClick(item)}
                         >
-                            <td className='custom-td px-2 sm:px-4'>{item.id}</td>
-                            <td className='custom-td px-2 sm:px-4'>{item.name}</td>
-                            <td className='custom-td px-2 sm:px-4'>{item.description}</td>
-                            <td className='custom-td px-2 !text-right sm:px-4'>
-                                {(item.price / 100).toLocaleString('pt-br', {
-                                    style: 'currency',
-                                    currency: 'BRL',
-                                })}
+                            <td className='custom-td px-2 text-left sm:px-4'>{item.id}</td>
+                            <td className='custom-td px-2 text-left sm:px-4'>{item.name}</td>
+                            <td className='custom-td px-2 text-left sm:px-4'>{item.description}</td>
+                            <td className='custom-td flex justify-between px-2 !text-right sm:px-4'>
+                                <span className='pr-1 text-left'>R$</span>
+                                <span>{(item.price / 100).toLocaleString('pt-BR', { minimumFractionDigits: 2 })}</span>
                             </td>
                         </tr>
                     ))}

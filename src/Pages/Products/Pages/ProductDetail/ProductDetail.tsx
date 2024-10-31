@@ -56,13 +56,15 @@ const ProductDetail = () => {
             <h2 className='mb-4 text-2xl font-bold text-gray-800'>Detalhes do produto</h2>
             <div className='space-y-2 text-gray-700'>
                 <p className='font-semibold'>
-                    <span className='text-gray-900'>Nome:</span> {name}
+                    <span className='mr-2 text-gray-900'>Nome:</span>
+                    {name}
                 </p>
                 <p className='font-semibold'>
-                    <span className='text-gray-900'>Descrição:</span> {description}
+                    <span className='mr-2 text-gray-900'>Descrição:</span>
+                    {description}
                 </p>
                 <p className='font-semibold'>
-                    <span className='text-gray-900'>Preço:</span>
+                    <span className='mr-2 text-gray-900'>Preço:</span>
                     {(price / 100).toLocaleString('pt-br', { style: 'currency', currency: 'BRL' })}
                 </p>
             </div>

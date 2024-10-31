@@ -26,17 +26,24 @@ const Header = () => {
     if (!user) return null;
 
     return (
-        <div className='flex w-full items-center justify-between border-b border-gray-300 bg-gray-50 p-4 shadow-sm'>
+        <div
+            className={`flex w-full items-center border-b border-gray-300 bg-gray-50 p-4 shadow-sm ${showBackButton ? 'justify-between' : 'justify-end'}`}
+        >
             {showBackButton && (
-                <button
-                    onClick={handleClick}
-                    className='flex items-center gap-2 rounded-full bg-gray-200 px-3 py-2 font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-300 hover:text-gray-800'
-                >
-                    <IoMdArrowRoundBack className='h-5 w-5' />
-                    <span>{selectedProduct ? selectedProduct?.name : 'Criar um produto'}</span>
-                </button>
+                <>
+                    <button
+                        onClick={handleClick}
+                        className='flex items-center gap-2 rounded-full bg-gray-200 px-3 py-2 font-medium text-gray-600 transition-colors duration-200 hover:bg-gray-300 hover:text-gray-800'
+                    >
+                        <IoMdArrowRoundBack className='h-5 w-5' />
+                    </button>
+                    <span className='rounded-full bg-gray-200 px-3 py-2 font-medium text-gray-600'>
+                        {selectedProduct ? selectedProduct?.name : 'Criar um produto'}
+                    </span>
+                </>
             )}
-            <span className='ml-auto text-lg font-semibold text-gray-700'>Olá, {user?.firstName}</span>
+
+            <span className='px-3 py-2 text-lg font-semibold text-gray-700'>Olá, {user?.firstName}</span>
         </div>
     );
 };

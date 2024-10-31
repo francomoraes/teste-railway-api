@@ -24,8 +24,7 @@ const AddProducts = () => {
     const onSubmit: SubmitHandler<AddProductFormData> = async (data) => {
         const accessToken = localStorage.getItem('accessToken');
         if (selectedTenant) {
-            console.log('data', data);
-            // handleAddProduct(data, selectedTenant?.uuid, accessToken, setIsLoading, setSuccessMessage, setError, reset);
+            handleAddProduct(data, selectedTenant?.uuid, accessToken, setIsLoading, setSuccessMessage, setError, reset);
         }
     };
 
